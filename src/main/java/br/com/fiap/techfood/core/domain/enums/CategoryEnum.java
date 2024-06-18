@@ -16,7 +16,7 @@ public enum CategoryEnum {
 		this.description = description;
 	}
 
-	public CategoryEnum toEnum(Integer code) {
+	public static CategoryEnum toEnum(Integer code) {
 		if (code == null) {
 			return null;
 		}

@@ -15,7 +15,7 @@ public enum OrderStatusEnum {
 		this.code = code;
 	}
 
-	public OrderStatusEnum toEnum(Integer code) {
+	public static OrderStatusEnum toEnum(Integer code) {
 		if (code == null) {
 			return null;
 		}
