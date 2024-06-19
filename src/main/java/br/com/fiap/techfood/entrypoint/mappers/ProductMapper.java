@@ -11,7 +11,7 @@ public class ProductMapper {
 
 	//TODO talvez padronizar para não lançar esse illegalArgumentException
 
-	public public ProductDomain dtoToDomain(ProductDTO productDto) {
+	public ProductDomain dtoToDomain(ProductDTO productDto) {
 		if (productDto == null) {
 			throw new IllegalArgumentException("ProductDTO cannot be null");
 		}
