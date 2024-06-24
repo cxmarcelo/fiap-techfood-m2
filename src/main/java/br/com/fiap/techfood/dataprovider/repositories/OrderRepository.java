@@ -12,7 +12,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, UUID> {
 
 	List<OrderEntity> findAllByStatus(Integer status);
 
-	@Query("SELECT order FROM OrderEntity order WHERE order.status != 5 AND order.status != 9 ORDER BY order.status, order.creationDate ASC")
+	@Query("SELECT order FROM OrderEntity order WHERE order.status NOT IN (5, 9) ORDER BY order.status, order.creationDate ASC")
 	List<OrderEntity> findAllActiveOrders();
 
 }
