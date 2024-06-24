@@ -93,6 +93,11 @@ public class OrderUseCaseImpl implements OrderUseCase {
 	}
 
 	@Override
+	public List<OrderDomain> findAllActive() {
+		return orderDataProvider.findAllActive();
+	}
+
+	@Override
 	public void delete(UUID id) {
 		var orderDomain = this.findById(id);
 

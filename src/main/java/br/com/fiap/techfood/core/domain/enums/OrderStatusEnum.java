@@ -4,9 +4,10 @@ public enum OrderStatusEnum {
 
 	AWAITING_PAYMENT(1),
 	PAYMENT_APPROVED(2),
-	REJECTED(3),
-	PREPARED(4),
+	PREPARED(3),
+	READY_FOR_PICKUP(4),
 	FINISHED(5),
+	PAYMENT_REJECTED(9)
 	;
 
 	private Integer code;
