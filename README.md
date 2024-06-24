@@ -1,10 +1,12 @@
 # TechFood - Sistema de Autoatendimento para FastFoods
-
+![Badge concluido](https://img.shields.io/static/v1?label=STATUS&message=Em%20Andamento&color=orange&style=for-the-badge)
 ## Visão Geral
 
 O TechFood é um sistema de autoatendimento desenvolvido para Fastfoods , com o objetivo de otimizar o processo de pedidos, pagamento, preparação e entrega de comida.   
 O sistema oferece aos clientes uma interface para personalizar seus pedidos e acompanhar o progresso deles em tempo real.   
 Também fornece aos administradores ferramentas para gerenciar os clientes, os produtos e os pedidos.
+
+Esta é a segunda versão deste projeto, onde houve a migração para Clean Architecture. A versão anterior [está disponível aqui.](https://github.com/RafaelRoseno/fiap-techfood)  
 
 ## Funcionalidades Principais
 
@@ -15,7 +17,7 @@ Também fornece aos administradores ferramentas para gerenciar os clientes, os p
 
 ## Principais Tecnologias Utilizadas
 
-- **Kotlin**
+- **Java**
 - **PostgreSQL**
 - **Clean Architecture**
 - **Docker**
@@ -25,7 +27,7 @@ Também fornece aos administradores ferramentas para gerenciar os clientes, os p
 
 ## Documentação
 
-TODO  
+//TODO  
 [Event Storming](https://miro.com/app/board/uXjVPtIvRFs=/)
 
 
@@ -39,6 +41,8 @@ O TechFood expõe as seguintes APIs para integração:
 - **Checkout:** API para o checkout de pedidos, enviando os produtos escolhidos para a fila de preparação.
 - **Acompanhamento de Pedidos:** API para listar os pedidos em andamento e o tempo de espera de cada pedido.
 
+//TODO
+
 ## Iniciando
 
 Enviar modificações para a branch main requer:
@@ -47,17 +51,17 @@ Enviar modificações para a branch main requer:
 - Passar na formatação e nos testes de segurança;
 - Passar nos testes de unidade e de integração;
 
-No merging todas as mudanças será automaticamente integradas pelo Github Actions.
+No merging todas as mudanças serão automaticamente integradas pelo Github Actions.
 
 ## Como Executar
 
 Para executar o sistema, siga as instruções abaixo:
 
-1. Certifique-se de ter o Docker e o Docker Compose instalados em seu computador.
-2. Clone o repositório, no terminal executando o comando: `$ git clone https://github.com/priscilasanfer/fiap-techfood.git`
-3. Entre na pasta do projeto: `$ cd fiap-techfood`
-4. Build o projeto rodando o comando `$ mvn install -DskipTests`
-5. Execute o comando `$ docker compose up --build -d` para subir o ambiente completo em modo detached.
+1. Certifique-se de ter o Docker e o Docker Compose ***instalados e em execução*** em seu computador.
+2. Execute o comando: `git clone https://github.com/cxmarcelo/fiap-techfood-m2.git` no terminal para clonar o repositório.
+3. Entre na pasta do projeto: `cd fiap-techfood-m2`
+4. Build o projeto rodando o comando: `mvn install -DskipTests`
+5. Execute o comando: `docker compose up --build -d` para subir o ambiente completo em modo detached.
 6. Acesse a documentação da API através do Swagger para começar a interagir com o sistema.
 
 ## Acessando Swagger
@@ -70,4 +74,4 @@ O ambiente de desenvolvimento já sobe com alguns dados no banco, isso facilita 
 
 Para subir o ambiente de desenvolvimento utilize o comando: `sudo docker compose -f docker-compose-dev.yml up`
 
-Se for necessário fazer um reset no ambiente, pode usar o comando: `sudo docker compose -f docker-compose-dev.yml down --rmi all`.
+Se for necessário fazer um reset no ambiente, usar o comando: `sudo docker compose -f docker-compose-dev.yml down --rmi all`
