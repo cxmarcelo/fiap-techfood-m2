@@ -46,7 +46,8 @@ public class ClientUseCaseImpl implements ClientUseCase {
 	}
 
 	@Override
-	public void delete(ClientDomain clientDomain) {
+	public void delete(UUID id) {
+		var clientDomain = findById(id);
 		clientDataProvider.delete(clientDomain);
 	}
 
