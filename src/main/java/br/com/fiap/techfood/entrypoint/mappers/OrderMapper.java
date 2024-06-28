@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.fiap.techfood.core.domain.OrderDomain;
 import br.com.fiap.techfood.core.domain.OrderItemDomain;
+import br.com.fiap.techfood.core.domain.OrderItemRequestDomain;
 import br.com.fiap.techfood.core.domain.OrderRequestDomain;
 import br.com.fiap.techfood.entrypoint.dtos.OrderCreateDTO;
 import br.com.fiap.techfood.entrypoint.dtos.OrderDto;
@@ -24,7 +25,7 @@ public class OrderMapper {
 		BeanUtils.copyProperties(orderDomain, orderDto);
 
 		if(orderDomain.getItems() != null) {
-			orderDto.setItems(orderDomain.getItems().stream().map(orderItem -> toOrderItemDto(orderItem) ).toList());
+			orderDto.setItems(orderDomain.getItems().stream().map(orderItem -> toOrderItemDto(orderItem)).toList());
 		}
 
 		if(orderDomain.getClient() != null) {
@@ -37,6 +38,7 @@ public class OrderMapper {
 	public OrderItemDto toOrderItemDto(OrderItemDomain orderItemDomain) {
 		var orderItemDto = new OrderItemDto();
 		BeanUtils.copyProperties(orderItemDomain, orderItemDto);
+		orderItemDto.setProductId(orderItemDomain.getProduct().getId());
 		return orderItemDto;
 	}
 
@@ -47,15 +49,15 @@ public class OrderMapper {
 		return orderRequestDomain;
 	}
 
-	public List<OrderItemDomain> toOrderItemDomainList(List<OrderItemDto> items) {
+	public List<OrderItemRequestDomain> toOrderItemDomainList(List<OrderItemDto> items) {
 		if (items == null) {
 			return null;
 		}
 		return items.stream().map(orderItemDto -> this.toOrderItemDomain(orderItemDto)).toList();
 	}
 
-	public OrderItemDomain toOrderItemDomain(OrderItemDto orderItemDto) {
-		var orderItemDomain = new OrderItemDomain();
+	public OrderItemRequestDomain toOrderItemDomain(OrderItemDto orderItemDto) {
+		var orderItemDomain = new OrderItemRequestDomain();
 		BeanUtils.copyProperties(orderItemDto, orderItemDomain);
 		return orderItemDomain;
 	}

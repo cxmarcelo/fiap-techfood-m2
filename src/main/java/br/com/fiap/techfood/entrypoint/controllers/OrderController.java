@@ -33,10 +33,11 @@ public class OrderController {
 	
 	
     @PostMapping
-    public ResponseEntity<OrderDomain>  makeOrder(@RequestBody @Validated OrderCreateDTO orderCreateDto) {
+    public ResponseEntity<OrderDto>  makeOrder(@RequestBody @Validated OrderCreateDTO orderCreateDto) {
         var cartDomain = orderMapper.toOrderRequestDomain(orderCreateDto);
-        var response = orderUseCase.save(cartDomain, orderCreateDto.getClientCpf());
-        return ResponseEntity.ok().body(response);
+        var orderDomain = orderUseCase.save(cartDomain, orderCreateDto.getClientCpf());
+        var responseDto = orderMapper.toOrderDto(orderDomain);
+        return ResponseEntity.ok().body(responseDto);
     }
 
     @GetMapping("/awaiting-payment")

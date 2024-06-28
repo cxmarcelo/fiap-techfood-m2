@@ -5,13 +5,13 @@ import java.util.List;
 public class OrderRequestDomain {
 
 	private String orderName;
-	private List<OrderItemDomain> requestProducts;
+	private List<OrderItemRequestDomain> requestProducts;
 
 	public OrderRequestDomain() {
 		super();
 	}
 
-	public OrderRequestDomain(String orderName, List<OrderItemDomain> requestProducts) {
+	public OrderRequestDomain(String orderName, List<OrderItemRequestDomain> requestProducts) {
 		super();
 		this.orderName = orderName;
 		this.requestProducts = requestProducts;
@@ -25,11 +25,11 @@ public class OrderRequestDomain {
 		this.orderName = orderName;
 	}
 
-	public List<OrderItemDomain> getRequestProducts() {
+	public List<OrderItemRequestDomain> getRequestProducts() {
 		return requestProducts;
 	}
 
-	public void setRequestProducts(List<OrderItemDomain> requestProducts) {
+	public void setRequestProducts(List<OrderItemRequestDomain> requestProducts) {
 		this.requestProducts = requestProducts;
 	}
 

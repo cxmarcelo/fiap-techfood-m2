@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.fiap.techfood.core.domain.OrderDomain;
 import br.com.fiap.techfood.core.domain.OrderItemDomain;
+import br.com.fiap.techfood.core.domain.OrderItemRequestDomain;
 import br.com.fiap.techfood.dataprovider.repositories.entities.OrderEntity;
 import br.com.fiap.techfood.dataprovider.repositories.entities.OrderItemEntity;
 import br.com.fiap.techfood.dataprovider.repositories.entities.OrderItemPk;
@@ -18,6 +19,9 @@ public class OrderEntityMapper {
 
 	@Autowired
 	private ClientEntityMapper clientEntityMapper;
+
+	@Autowired
+	private ProductEntityMapper productEntityMapper;
 
 	public OrderEntity toOrderEntity(OrderDomain orderDomain) {
 		var orderEntity = new OrderEntity();
@@ -50,7 +54,7 @@ public class OrderEntityMapper {
 	public OrderItemEntity toOrderItemEntity(OrderItemDomain orderItemDomain, OrderEntity orderEntity) {
 		var orderItemEntity = new OrderItemEntity();
 		BeanUtils.copyProperties(orderItemDomain, orderItemEntity);
-		orderItemEntity.setId(new OrderItemPk(orderEntity, new ProductEntity(orderItemDomain.getProductId())));
+		orderItemEntity.setId(new OrderItemPk(orderEntity, new ProductEntity(orderItemDomain.getProduct().getId())));
 		return orderItemEntity;
 	}
 
@@ -58,11 +62,26 @@ public class OrderEntityMapper {
 		return orderItemEntityList.stream().map(orderItemEntity -> toOrderItemDomain(orderItemEntity)).toList();
 	}
 
+	/*
+	public List<OrderItemRequestDomain>  toOrderItemRequestDomainList(List<OrderItemEntity> orderItemEntityList) {
+		return orderItemEntityList.stream().map(orderItemEntity -> toOrderItemRequestDomain(orderItemEntity)).toList();
+	}
+	*/
+
 	public OrderItemDomain toOrderItemDomain(OrderItemEntity orderItemEntity) {
 		var orderItemDomain = new OrderItemDomain();
+		BeanUtils.copyProperties(orderItemEntity, orderItemDomain);
+		orderItemDomain.setProduct(productEntityMapper.toProductDomain(orderItemEntity.getId().getProduct()));
+		return orderItemDomain;
+	}
+
+	/*
+	public OrderItemRequestDomain toOrderItemRequestDomain(OrderItemEntity orderItemEntity) {
+		var orderItemDomain = new OrderItemRequestDomain();
 		BeanUtils.copyProperties(orderItemEntity, orderItemDomain);
 		orderItemDomain.setProductId(orderItemEntity.getId().getProduct().getId());
 		return orderItemDomain;
 	}
+	*/
 
 }

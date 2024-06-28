@@ -1,10 +1,8 @@
 package br.com.fiap.techfood.entrypoint.dtos;
 
-import java.util.List;
+import java.util.UUID;
 
-import org.hibernate.validator.constraints.Length;
-
-import jakarta.validation.constraints.NotBlank;
+import br.com.fiap.techfood.core.domain.enums.PaymentProviderEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,15 +11,12 @@ import lombok.Setter;
 
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
-public class OrderCreateDTO {
+public class PaymentCreateDTO {
 
 	@NotNull
-	private List<OrderItemDto> orderItems;
+	private UUID orderId;
 
-	@NotBlank
-	@Length(min = 3)
-	private String orderName;
-
-	private String clientCpf;
+	@NotNull
+	private PaymentProviderEnum paymentProvider;
 
 }
