@@ -17,9 +17,11 @@ INSERT INTO tb_products (id, category, price, description, imageurl, name) VALUE
 -- DESSERT ("Sobremesa", 4)
 ('c4dcb339-908e-4b29-9264-47cf57613402', 4, 6.50, 'Sorvete de baunilha com calda de chocolate', 'http://example.com/images/sorvete_baunilha.jpg', 'Sorvete de Baunilha'),
 ('f9ae6dcd-6891-4a3a-90f1-78a7377e4c7a', 4, 7.00, 'Brownie de chocolate com nozes', 'http://example.com/images/brownie.jpg', 'Brownie de Chocolate'),
-('e6bf8692-c8b0-40d8-8c5c-1ff54944d20d', 4, 5.00, 'Torta de maçã com canela', 'http://example.com/images/torta_maca.jpg', 'Torta de Maçã');
+('e6bf8692-c8b0-40d8-8c5c-1ff54944d20d', 4, 5.00, 'Torta de maçã com canela', 'http://example.com/images/torta_maca.jpg', 'Torta de Maçã')
+ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO tb_clients (id, name, cpf, email) VALUES
 ('6bb12546-bcf0-4e4a-90a4-9c30e6d094bb', 'Eduarda Brenda Jennifer Nascimento', '426.169.392-58', 'eduarda_nascimento@dominatto.ind.br'),
 ('4a260740-e8cb-4f89-90db-33e48345beae', 'Julia Bernardes', '551.539.817-38', 'julia-bernardes94@live.se'),
-('f7a0491d-cfb0-4891-9d50-f0a2f95eb788', 'Vinicius Martin Tiago da Rocha', '136.992.179-90', 'vinicius_darocha@easytechconsultoria.com.br');
+('f7a0491d-cfb0-4891-9d50-f0a2f95eb788', 'Vinicius Martin Tiago da Rocha', '136.992.179-90', 'vinicius_darocha@easytechconsultoria.com.br')
+ON CONFLICT (id) DO NOTHING;

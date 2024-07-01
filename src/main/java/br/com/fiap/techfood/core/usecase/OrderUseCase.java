@@ -15,6 +15,8 @@ public interface OrderUseCase {
 
 	List<OrderDomain> findAllByStatus(OrderStatusEnum orderStatus);
 
+	List<OrderDomain> findAllActive();
+
 	void delete(UUID id);
 
 	String approvePayment(UUID id);

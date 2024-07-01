@@ -15,6 +15,8 @@ public interface OrderDataProvider {
 
 	List<OrderDomain> findAllByOrderStatus(OrderStatusEnum status);
 
+	List<OrderDomain> findAllActive();
+
 	void delete(UUID id);
 
 	void updateStatus(UUID id, OrderStatusEnum status);
