@@ -8,9 +8,6 @@ import br.com.fiap.techfood.core.domain.exceptions.PaymentCreateFailException;
 public interface PaymentDataProvider {
 
 	public PaymentDomain createPaymentOrder(OrderDomain orderDomain) throws PaymentCreateFailException;
-	
-	//TODO
-	public PaymentDomain createPaymentLink(OrderDomain orderDomain);
 
 	public PaymentProviderEnum getProviderCode();
 

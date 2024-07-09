@@ -20,29 +20,29 @@ public class PaymentEntity {
 	@EmbeddedId
 	private PaymentPk id;
 
-	private LocalDateTime paymentDateCreated;
-	private LocalDateTime paymentDateApproved;
-	private LocalDateTime paymentDateLastUpdated;
-	private LocalDateTime paymentDateOfExpiration;
+	private LocalDateTime dateCreated;
+	private LocalDateTime dateApproved;
+	private LocalDateTime dateLastUpdated;
+	private LocalDateTime dateOfExpiration;
 	private BigDecimal amount;
 	private String qrCode;
 	private PaymentStatusEnum status;
 
 	@Column(nullable = false)
-	private LocalDateTime creationDate;
+	private LocalDateTime internalCreationDate;
 
 	@Column(nullable = false)
-	private LocalDateTime lastUpdateDate;
+	private LocalDateTime internalLastUpdateDate;
 
 	@PrePersist
 	private void beforePersist() {
-		this.creationDate = LocalDateTime.now();
-		this.lastUpdateDate = LocalDateTime.now();
+		this.internalCreationDate = LocalDateTime.now();
+		this.internalLastUpdateDate = LocalDateTime.now();
 	}
 
 	@PreUpdate
 	private void beforeUpdate() {
-		this.lastUpdateDate = LocalDateTime.now();
+		this.internalLastUpdateDate = LocalDateTime.now();
 	}
 
 }

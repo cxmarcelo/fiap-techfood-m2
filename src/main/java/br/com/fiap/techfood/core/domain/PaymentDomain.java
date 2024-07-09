@@ -16,6 +16,9 @@ public class PaymentDomain {
 	private BigDecimal amount;
 	private String qrCode;
 	private PaymentStatusEnum status;
+	
+	private LocalDateTime internalCreationDate;
+	private LocalDateTime internalLastUpdateDate;
 
 	public PaymentDomain() {
 		super();
@@ -83,6 +86,22 @@ public class PaymentDomain {
 
 	public void setStatus(PaymentStatusEnum status) {
 		this.status = status;
+	}
+
+	public LocalDateTime getInternalCreationDate() {
+		return internalCreationDate;
+	}
+
+	public void setInternalCreationDate(LocalDateTime internalCreationDate) {
+		this.internalCreationDate = internalCreationDate;
+	}
+
+	public LocalDateTime getInternalLastUpdateDate() {
+		return internalLastUpdateDate;
+	}
+
+	public void setInternalLastUpdateDate(LocalDateTime internalLastUpdateDate) {
+		this.internalLastUpdateDate = internalLastUpdateDate;
 	}
 
 }

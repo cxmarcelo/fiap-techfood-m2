@@ -32,12 +32,9 @@ public class PaymentUseCaseImpl implements PaymentUseCase {
 	public PaymentDomain createExternalPayment(UUID orderId, PaymentProviderEnum orderPaymentProvider) {
 		var orderDomain = this.findOrderById(orderId);
 
-		//TODO check status
-		//if AWAITING_PAYMENT, PAID ... throw
 		if(!(orderDomain.getStatus().equals(OrderStatusEnum.ORDER_CREATED) 
 				|| orderDomain.getStatus().equals(OrderStatusEnum.PAYMENT_CREATE_FAILED)
 				|| orderDomain.getStatus().equals(OrderStatusEnum.REJECTED))) {
-			//TODO especificar o erro
 			throw new DataIntegrityException("It is not possible to create a Payment for the order.");
 		}
 

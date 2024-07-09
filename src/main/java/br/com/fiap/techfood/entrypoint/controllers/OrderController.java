@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.techfood.core.domain.OrderDomain;
 import br.com.fiap.techfood.core.domain.enums.OrderStatusEnum;
 import br.com.fiap.techfood.core.usecase.OrderUseCase;
 import br.com.fiap.techfood.entrypoint.dtos.OrderCreateDTO;

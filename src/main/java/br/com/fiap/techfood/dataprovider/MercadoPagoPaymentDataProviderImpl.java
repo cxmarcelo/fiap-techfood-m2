@@ -31,16 +31,15 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 
-	//TODO VAR AMBIENTE
 	@Value("dataprovider.payment.mercado-pago.access-token")
 	private String accessToken;
 
 	@Value("dataprovider.payment.mercado-pago.default-payer-email")
 	private String defaultPayerEmail;
-	
+
 	@Autowired
 	private PaymentMercadoPagoMapper paymentMercadoPagoMapper;
-	
+
 	@Override
 	public PaymentDomain createPaymentOrder(OrderDomain orderDomain) throws PaymentCreateFailException {
 		MercadoPagoConfig.setAccessToken(accessToken);
@@ -58,9 +57,9 @@ public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 		.socketTimeout(2000)
 		.customHeaders(customHeaders)
 		.build();
-		
+
 		String payerEmail = null;
-		
+
 		if(orderDomain.getClient() != null && orderDomain.getClient().getEmail() != null) {
 			payerEmail = orderDomain.getClient().getEmail();
 		} else {
@@ -72,7 +71,6 @@ public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 				PaymentCreateRequest.builder()
 				.transactionAmount(new BigDecimal(1))
 				.externalReference(orderDomain.getId().toString())
-				//.token("your_cardtoken")
 				.description("fiap-techfood")
 				.installments(1)
 				.paymentMethodId("pix")
@@ -97,17 +95,8 @@ public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 	}
 
 	@Override
-	public PaymentDomain createPaymentLink(OrderDomain orderDomain) {
-		//Mercado Pago
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public PaymentProviderEnum getProviderCode() {
-		// TODO Auto-generated method stub
 		return PaymentProviderEnum.MERCADO_PAGO;
 	}
-
 
 }

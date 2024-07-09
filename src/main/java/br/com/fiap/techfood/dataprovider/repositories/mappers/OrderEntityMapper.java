@@ -8,10 +8,12 @@ import org.springframework.stereotype.Component;
 
 import br.com.fiap.techfood.core.domain.OrderDomain;
 import br.com.fiap.techfood.core.domain.OrderItemDomain;
-import br.com.fiap.techfood.core.domain.OrderItemRequestDomain;
+import br.com.fiap.techfood.core.domain.PaymentDomain;
 import br.com.fiap.techfood.dataprovider.repositories.entities.OrderEntity;
 import br.com.fiap.techfood.dataprovider.repositories.entities.OrderItemEntity;
 import br.com.fiap.techfood.dataprovider.repositories.entities.OrderItemPk;
+import br.com.fiap.techfood.dataprovider.repositories.entities.PaymentEntity;
+import br.com.fiap.techfood.dataprovider.repositories.entities.PaymentPk;
 import br.com.fiap.techfood.dataprovider.repositories.entities.ProductEntity;
 
 @Component
@@ -62,12 +64,6 @@ public class OrderEntityMapper {
 		return orderItemEntityList.stream().map(orderItemEntity -> toOrderItemDomain(orderItemEntity)).toList();
 	}
 
-	/*
-	public List<OrderItemRequestDomain>  toOrderItemRequestDomainList(List<OrderItemEntity> orderItemEntityList) {
-		return orderItemEntityList.stream().map(orderItemEntity -> toOrderItemRequestDomain(orderItemEntity)).toList();
-	}
-	*/
-
 	public OrderItemDomain toOrderItemDomain(OrderItemEntity orderItemEntity) {
 		var orderItemDomain = new OrderItemDomain();
 		BeanUtils.copyProperties(orderItemEntity, orderItemDomain);
@@ -75,13 +71,16 @@ public class OrderEntityMapper {
 		return orderItemDomain;
 	}
 
-	/*
-	public OrderItemRequestDomain toOrderItemRequestDomain(OrderItemEntity orderItemEntity) {
-		var orderItemDomain = new OrderItemRequestDomain();
-		BeanUtils.copyProperties(orderItemEntity, orderItemDomain);
-		orderItemDomain.setProductId(orderItemEntity.getId().getProduct().getId());
-		return orderItemDomain;
+	public List<PaymentEntity> toPaymentEntityList(List<PaymentDomain> paymentDomainList, OrderEntity orderEntity) {
+		return paymentDomainList.stream().map(paymentDomain -> toPaymentEntity(paymentDomain, orderEntity)).toList();
 	}
-	*/
 
+	public PaymentEntity toPaymentEntity(PaymentDomain paymentDomain, OrderEntity orderEntity) {
+		var paymentEntity = new PaymentEntity();
+		BeanUtils.copyProperties(paymentDomain, paymentEntity);
+		paymentEntity.setId(new PaymentPk(orderEntity, paymentDomain.getId()));
+		return paymentEntity;
+	}
+
+	
 }
