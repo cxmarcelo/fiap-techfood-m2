@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techfood-deployment
+  labels:
+    app: techfood
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: techfood
+  template:
+    metadata:
+      labels:
+        app: techfood
+    spec:
+      containers:
+        - name: techfood-container
+          image: rafaelroseno/techfood:v1.5
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: techfood-configmap
+          volumeMounts:
+           - name: sql-script-volume
+             mountPath: /docker-entrypoint-initdb.d
+             subPath: schema.sql
+      volumes:
+       - name: sql-script-volume
+         configMap:
+           name: techfood-configmap
+           items:
+             - key: schema.sql
+               path: schema.sql
