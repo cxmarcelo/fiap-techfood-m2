@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.payment.PaymentClient;
@@ -66,7 +67,8 @@ public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 			payerEmail = this.defaultPayerEmail;
 		}
 
-		//TODO
+		String notificationUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/mercado-pago/webhook";
+
 		PaymentCreateRequest createRequest =
 				PaymentCreateRequest.builder()
 				.transactionAmount(new BigDecimal(1))
@@ -74,12 +76,12 @@ public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 				.description("fiap-techfood")
 				.installments(1)
 				.paymentMethodId("pix")
+				.notificationUrl(notificationUrl)
 				.payer(PaymentPayerRequest.builder().email(payerEmail).build())
 				.build();
 
 		try {
 			Payment paymentResponse = paymentClient.create(createRequest);
-			//AO CRIAR PAGAMENTO NA TEORIA SEMPRE VAI SER PENDING (APPROVED TALVEZ SE FOR PREÇO 0)
 			if(PaymentStatus.PENDING.equals(paymentResponse.getStatus())) {
 				PaymentDomain paymentDomain = this.paymentMercadoPagoMapper.toPaymentDomain(paymentResponse);
 				return paymentDomain;

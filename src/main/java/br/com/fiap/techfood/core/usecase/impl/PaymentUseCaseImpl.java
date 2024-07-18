@@ -71,6 +71,18 @@ public class PaymentUseCaseImpl implements PaymentUseCase {
 		}
 		return optOrderDomain.get();
 	}
+	
+	@Override
+	public String approvePaymentMock(UUID id) {
+		var orderDomain = this.findOrderById(id);
+
+		if (!orderDomain.getStatus().getCode().equals(OrderStatusEnum.AWAITING_PAYMENT.getCode())) {
+			throw new DataIntegrityException("It is only possible to approve payment for an order with status Awaiting Payment.");
+		}
+
+		orderDataProvider.updateStatus(id, OrderStatusEnum.PAYMENT_APPROVED);
+		return "Payment Aprroved";
+	}
 
 
 }

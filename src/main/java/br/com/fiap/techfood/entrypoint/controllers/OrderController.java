@@ -73,12 +73,6 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{orderId}/pay")
-    public ResponseEntity<String> approvePayment(@PathVariable UUID orderId) {
-        var message = orderUseCase.approvePayment(orderId);
-        return ResponseEntity.ok().body(message);
-    }
-
     @PostMapping("/{orderId}/prepare")
     public ResponseEntity<Void> prepareOrder(@PathVariable UUID orderId) {
     	orderUseCase.prepareOrder(orderId);

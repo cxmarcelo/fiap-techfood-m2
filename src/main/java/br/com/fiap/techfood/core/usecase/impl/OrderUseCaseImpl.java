@@ -122,18 +122,6 @@ public class OrderUseCaseImpl implements OrderUseCase {
 	}
 
 	@Override
-	public String approvePayment(UUID id) {
-		var orderDomain = this.findById(id);
-
-		if (!orderDomain.getStatus().getCode().equals(OrderStatusEnum.AWAITING_PAYMENT.getCode())) {
-			throw new DataIntegrityException("It is only possible to approve payment for an order with status Awaiting Payment.");
-		}
-
-		orderDataProvider.updateStatus(id, OrderStatusEnum.PAYMENT_APPROVED);
-		return "Payment Aprroved";
-	}
-
-	@Override
 	public void prepareOrder(UUID id) {
 		var orderDomain = this.findById(id);
 

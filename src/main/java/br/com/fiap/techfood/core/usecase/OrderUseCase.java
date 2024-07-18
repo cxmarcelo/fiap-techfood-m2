@@ -17,8 +17,6 @@ public interface OrderUseCase {
 
 	void delete(UUID id);
 
-	String approvePayment(UUID id);
-
 	void prepareOrder(UUID id);
 
 	void finishOrder(UUID id);

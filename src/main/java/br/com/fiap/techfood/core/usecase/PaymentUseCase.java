@@ -8,5 +8,7 @@ import br.com.fiap.techfood.core.domain.enums.PaymentProviderEnum;
 public interface PaymentUseCase {
 
 	PaymentDomain createExternalPayment(UUID orderId, PaymentProviderEnum orderPaymentProvider);
+	
+	String approvePaymentMock(UUID id);
 
 }
