@@ -30,19 +30,12 @@ public class OrderController {
 	@Autowired
 	private OrderMapper orderMapper;
 	
-	
     @PostMapping
     public ResponseEntity<OrderDto>  makeOrder(@RequestBody @Validated OrderCreateDTO orderCreateDto) {
         var cartDomain = orderMapper.toOrderRequestDomain(orderCreateDto);
         var orderDomain = orderUseCase.save(cartDomain, orderCreateDto.getClientCpf());
         var responseDto = orderMapper.toOrderDto(orderDomain);
         return ResponseEntity.ok().body(responseDto);
-    }
-
-    @PostMapping("/{orderId}/pay")
-    public ResponseEntity<String> approvePayment(@PathVariable UUID orderId) {
-        var message = orderUseCase.approvePayment(orderId);
-        return ResponseEntity.ok().body(message);
     }
 
     @PostMapping("/{orderId}/prepare")
