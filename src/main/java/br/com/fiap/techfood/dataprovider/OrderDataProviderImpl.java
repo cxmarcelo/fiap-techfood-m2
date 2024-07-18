@@ -70,6 +70,12 @@ public class OrderDataProviderImpl implements OrderDataProvider {
 	}
 
 	@Override
+	public List<OrderDomain> findAllActive() {
+		var orderEntityList = orderRepository.findAllActiveOrders();
+		return orderEntityList.stream().map(orderEntity -> orderEntityMapper.toOrderDomain(orderEntity)).toList();
+	}
+
+	@Override
 	public void delete(UUID id) {
 		var orderEntityOpt = orderRepository.findById(id);
 

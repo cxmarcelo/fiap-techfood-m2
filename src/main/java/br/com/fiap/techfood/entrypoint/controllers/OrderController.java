@@ -39,6 +39,24 @@ public class OrderController {
         return ResponseEntity.ok().body(responseDto);
     }
 
+    @PostMapping("/{orderId}/pay")
+    public ResponseEntity<String> approvePayment(@PathVariable UUID orderId) {
+        var message = orderUseCase.approvePayment(orderId);
+        return ResponseEntity.ok().body(message);
+    }
+
+    @PostMapping("/{orderId}/prepare")
+    public ResponseEntity<Void> prepareOrder(@PathVariable UUID orderId) {
+        orderUseCase.prepareOrder(orderId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{orderId}/finish")
+    ResponseEntity<Void> finishOrder(@PathVariable UUID orderId) {
+        orderUseCase.finishOrder(orderId);
+        return ResponseEntity.noContent().build();
+    }
+    
     @GetMapping("/awaiting-payment")
     public ResponseEntity<List<OrderDto>> findAllAwaitingPayment() {
         var orderDomainList = orderUseCase.findAllByStatus(OrderStatusEnum.AWAITING_PAYMENT);
@@ -67,22 +85,17 @@ public class OrderController {
         return ResponseEntity.ok().body(orderDtoList);
     }
 
+    @GetMapping("/active")
+    public ResponseEntity<List<OrderDto>> findAllActiveOrders() {
+        var orderDomainList = orderUseCase.findAllActive();
+        var orderDtoList = orderDomainList.stream().map(orderDomain -> orderMapper.toOrderDto(orderDomain)).toList();
+        return ResponseEntity.ok().body(orderDtoList);
+    }
+
     @DeleteMapping("/{orderId}")
     public ResponseEntity<Void> deleteOrder(@PathVariable UUID orderId) {
     	orderUseCase.delete(orderId);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{orderId}/prepare")
-    public ResponseEntity<Void> prepareOrder(@PathVariable UUID orderId) {
-    	orderUseCase.prepareOrder(orderId);
-    	return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/{orderId}/finish")
-    ResponseEntity<Void> finishOrder(@PathVariable UUID orderId) {
-    	orderUseCase.finishOrder(orderId);
-    	return ResponseEntity.noContent().build();
-    }
-    
 }
