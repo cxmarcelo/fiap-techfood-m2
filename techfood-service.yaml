@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: techfood-service
 spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 32080
   selector:
     app: techfood
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
-  type: LoadBalancer
