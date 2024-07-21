@@ -7,7 +7,6 @@ data:
     SPRING_DATASOURCE_USERNAME: "postgres"
     SPRING_DATASOURCE_PASSWORD: "postgres"
     schema.sql: |
-      -- Table: tb_products
       CREATE TABLE IF NOT EXISTS tb_products (
                                                  category SMALLINT NOT NULL,
                                                  price NUMERIC(38, 2) NOT NULL,
@@ -18,8 +17,6 @@ data:
           CONSTRAINT tb_products_pkey PRIMARY KEY (id),
           CONSTRAINT tb_products_category_check CHECK (category >= 0 AND category <= 4)
           );
-      
-      -- Table: tb_clients
       CREATE TABLE IF NOT EXISTS tb_clients (
                                                 id UUID NOT NULL,
                                                 cpf VARCHAR(255) NOT NULL,
@@ -29,8 +26,6 @@ data:
           CONSTRAINT tb_clients_cpf_key UNIQUE (cpf),
           CONSTRAINT tb_clients_email_key UNIQUE (email)
           );
-      
-      -- Table: tb_orders
       CREATE TABLE IF NOT EXISTS tb_orders (
                                                is_anonymous BOOLEAN,
                                                status INTEGER NOT NULL,
@@ -42,8 +37,6 @@ data:
           CONSTRAINT tb_orders_pkey PRIMARY KEY (id),
           CONSTRAINT fk_order_client FOREIGN KEY (client_id) REFERENCES tb_clients (id) ON UPDATE NO ACTION ON DELETE NO ACTION
           );
-      
-      -- Table: tb_order_items
       CREATE TABLE IF NOT EXISTS tb_order_items (
                                                     quantity INTEGER NOT NULL,
                                                     order_id UUID NOT NULL,
