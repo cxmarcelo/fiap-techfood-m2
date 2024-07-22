@@ -21,6 +21,7 @@ Esta é a segunda versão deste projeto, onde houve a migração para Clean Arch
 - **PostgreSQL**
 - **Clean Architecture**
 - **Docker**
+- **Kubernetes**
 - **Swagger**
 - **Spring**
 - **Maven**
@@ -53,20 +54,43 @@ Enviar modificações para a branch main requer:
 
 No merging todas as mudanças serão automaticamente integradas pelo Github Actions.
 
-## Como Executar
-
+## Como Executar 
 Para executar o sistema, siga as instruções abaixo:
+### Clonando o Repositório
+1. Clone o repositório executando o comando:  
+`git clone https://github.com/cxmarcelo/fiap-techfood-m2.git`
+2. Entre na pasta do projeto:  
+`cd fiap-techfood-m2`
 
+### Docker
 1. Certifique-se de ter o Docker e o Docker Compose ***instalados e em execução*** em seu computador.
-2. Execute o comando: `git clone https://github.com/cxmarcelo/fiap-techfood-m2.git` no terminal para clonar o repositório.
-3. Entre na pasta do projeto: `cd fiap-techfood-m2`
-4. Build o projeto rodando o comando: `mvn install -DskipTests`
-5. Execute o comando: `docker compose up --build -d` para subir o ambiente completo em modo detached.
-6. Acesse a documentação da API através do Swagger para começar a interagir com o sistema.
+2. Construa o projeto executando o comando:  
+    `mvn install -DskipTests`
+3. Suba o ambiente completo em modo detached executando o comando:  
+   `docker compose up --build -d`
+4. Acesse a documentação da API através do Swagger para começar a interagir com o sistema.
+
+### Kubernetes
+1. Certifique-se de ter o Minikube e o Kubectl ***instalados e em execução*** em seu computador.
+2. Configure o ambiente Kubernetes executando os comandos a seguir: 
+   ``` 
+   kubectl apply -f techfood-configmap.yaml  
+   kubectl apply -f postgres-service.yaml  
+   kubectl apply -f postgres-deployment.yaml  
+   kubectl apply -f techfood-service.yaml  
+   kubectl apply -f techfood-deployment.yaml 
+   ```
+3. Crie um túnel de conexão com a aplicação executando o comando:  
+   `minikube service techfood-service`
+4. Utilize o ip fornecido para acessar a aplicação. Exemplo:  
+   `http://127.0.0.1:62248`
+5. Acesse a documentação da API através do Swagger para começar a interagir com o sistema.
 
 ## Acessando Swagger
 
-Para acessar o Swagger utilize a url [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html).
+Para acessar o Swagger utilize a url:
+#### Docker - [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html).
+#### Kubernetes - [http://-ip-do-tunel:porta/swagger-ui/index.html]()
 
 ## Ambiente de desenvolvimento
 
