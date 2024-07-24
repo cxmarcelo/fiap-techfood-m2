@@ -11,4 +11,6 @@ public interface PaymentUseCase {
 	
 	String approvePaymentMock(UUID id);
 
+	void checkExternalPaymentStatus(String externalPaymentId, PaymentProviderEnum orderPaymentProvider);
+
 }

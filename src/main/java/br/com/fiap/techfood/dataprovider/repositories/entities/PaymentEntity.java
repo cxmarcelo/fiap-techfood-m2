@@ -19,7 +19,10 @@ public class PaymentEntity {
 
 	@EmbeddedId
 	private PaymentPk id;
-
+	
+	@Column(nullable = false, unique = true)
+	private String externalId;
+	
 	private LocalDateTime dateCreated;
 	private LocalDateTime dateApproved;
 	private LocalDateTime dateLastUpdated;

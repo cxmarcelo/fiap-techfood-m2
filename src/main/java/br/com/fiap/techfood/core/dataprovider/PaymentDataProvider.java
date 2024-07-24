@@ -9,6 +9,8 @@ public interface PaymentDataProvider {
 
 	public PaymentDomain createPaymentOrder(OrderDomain orderDomain) throws PaymentCreateFailException;
 
+	PaymentDomain checkPaymentStatus(String externalPaymentId) throws PaymentCreateFailException;
+
 	public PaymentProviderEnum getProviderCode();
 
 }

@@ -9,6 +9,7 @@ import br.com.fiap.techfood.core.domain.enums.PaymentStatusEnum;
 public class PaymentDomain {
 
 	private UUID id;
+	private String externalId;
 	private LocalDateTime dateCreated;
 	private LocalDateTime dateApproved;
 	private LocalDateTime dateLastUpdated;
@@ -16,7 +17,7 @@ public class PaymentDomain {
 	private BigDecimal amount;
 	private String qrCode;
 	private PaymentStatusEnum status;
-	
+
 	private LocalDateTime internalCreationDate;
 	private LocalDateTime internalLastUpdateDate;
 
@@ -30,6 +31,14 @@ public class PaymentDomain {
 
 	public void setId(UUID id) {
 		this.id = id;
+	}
+
+	public String getExternalId() {
+		return externalId;
+	}
+
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
 	}
 
 	public LocalDateTime getDateCreated() {

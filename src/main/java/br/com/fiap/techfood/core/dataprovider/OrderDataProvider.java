@@ -21,4 +21,6 @@ public interface OrderDataProvider {
 
 	void updateStatus(UUID id, OrderStatusEnum status);
 
+	Optional<OrderDomain> findOrderByPaymentExternalId(String paymentExternalId);
+
 }

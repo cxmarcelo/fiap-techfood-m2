@@ -42,6 +42,11 @@ public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 	private PaymentMercadoPagoMapper paymentMercadoPagoMapper;
 
 	@Override
+	public PaymentProviderEnum getProviderCode() {
+		return PaymentProviderEnum.MERCADO_PAGO;
+	}
+
+	@Override
 	public PaymentDomain createPaymentOrder(OrderDomain orderDomain) throws PaymentCreateFailException {
 		MercadoPagoConfig.setAccessToken(accessToken);
 		MercadoPagoConfig.setLoggingLevel(Level.FINEST);
@@ -97,8 +102,33 @@ public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 	}
 
 	@Override
-	public PaymentProviderEnum getProviderCode() {
-		return PaymentProviderEnum.MERCADO_PAGO;
+	public PaymentDomain checkPaymentStatus(String externalPaymentId) throws PaymentCreateFailException {
+		MercadoPagoConfig.setAccessToken(accessToken);
+		MercadoPagoConfig.setLoggingLevel(Level.FINEST);
+
+		PaymentClient paymentClient = new PaymentClient();
+
+		MPRequestOptions.builder()
+		.connectionRequestTimeout(2000)
+		.connectionTimeout(2000)
+		.socketTimeout(2000)
+		.build();
+
+
+		try {
+			Long paymentMpId = Long.parseLong(externalPaymentId);
+			Payment paymentResponse = paymentClient.get(paymentMpId);
+
+			PaymentDomain paymentDomain = this.paymentMercadoPagoMapper.toPaymentDomain(paymentResponse);
+			return paymentDomain;
+		} catch (NumberFormatException e) {
+			log.error("Error to get payment: Invalid id given. Id: " + externalPaymentId);
+			throw new PaymentCreateFailException("Error to get payment. Invalid Long Id: " + externalPaymentId);
+		} catch (MPException | MPApiException e) {
+			log.error("Error generate payment {}", e.getMessage());
+			log.error(e.getMessage());
+			throw new PaymentCreateFailException("Error to get payment.");
+		}
 	}
 
 }

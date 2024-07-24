@@ -19,6 +19,7 @@ public class PaymentMercadoPagoMapper {
 		PaymentDomain paymentDomain = new PaymentDomain();
 
 		paymentDomain.setId(UUID.fromString(payment.getExternalReference()));
+		paymentDomain.setExternalId(String.valueOf(payment.getId()));
 
 		paymentDomain.setDateCreated(toLocalDateTime(payment.getDateCreated()));
 		paymentDomain.setDateLastUpdated(toLocalDateTime(payment.getDateLastUpdated()));

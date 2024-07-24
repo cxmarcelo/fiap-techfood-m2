@@ -2,7 +2,6 @@ package br.com.fiap.techfood.core.domain.enums;
 
 public enum OrderStatusEnum {
 
-	//TODO MUDAR PARA STRING?
 	ORDER_CREATED(1),
 	AWAITING_PAYMENT(2),
 	PREPARED(3),

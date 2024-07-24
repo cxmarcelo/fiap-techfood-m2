@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.fiap.techfood.core.domain.enums.PaymentProviderEnum;
 import br.com.fiap.techfood.core.usecase.PaymentUseCase;
 import br.com.fiap.techfood.entrypoint.dtos.PaymentCreateDTO;
 import br.com.fiap.techfood.entrypoint.dtos.PaymentDTO;
@@ -41,17 +42,13 @@ public class PaymentController {
 		return ResponseEntity.ok().body(message);
 	}
 
-	//deve retornar HTTP STATUS 200 (OK) ou 201 (CREATED).
 	@PostMapping("/mercado-pago/webhook")
 	public ResponseEntity<Void> mercadoPagoWebHook(@RequestBody MercadoPagoWebhookDTO webhook) {
-		//MERCADO PAGO MAPPER
 		if(webhook.getType().equals("payment")) {
 			if(webhook.getAction().equals("payment.updated")) {
-				//TODO
+				this.paymentUseCase.checkExternalPaymentStatus(webhook.getData().getId(), PaymentProviderEnum.MERCADO_PAGO);
 			}
-			
 		}
-
 		return ResponseEntity.ok().build();
 	}
 

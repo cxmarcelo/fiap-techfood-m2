@@ -62,6 +62,12 @@ public class OrderDataProviderImpl implements OrderDataProvider {
 		var optional = orderRepository.findById(id);
 		return optional.map(orderEntity -> orderEntityMapper.toOrderDomain(orderEntity));
 	}
+	
+	@Override
+	public Optional<OrderDomain> findOrderByPaymentExternalId(String paymentExternalId) {
+		var optional = orderRepository.findOrderByPaymentExternalId(paymentExternalId);
+		return optional.map(orderEntity -> orderEntityMapper.toOrderDomain(orderEntity));
+	}
 
 	@Override
 	public List<OrderDomain> findAllByOrderStatus(OrderStatusEnum status) {
