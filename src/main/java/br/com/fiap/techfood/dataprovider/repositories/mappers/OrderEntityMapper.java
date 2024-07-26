@@ -1,6 +1,7 @@
 package br.com.fiap.techfood.dataprovider.repositories.mappers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,30 +28,28 @@ public class OrderEntityMapper {
 
 	public OrderEntity toOrderEntity(OrderDomain orderDomain) {
 		var orderEntity = new OrderEntity();
+		BeanUtils.copyProperties(orderDomain, orderEntity);
 		orderEntity.setStatus(orderDomain.getStatus());
-		orderEntity.setIsAnonymous(orderDomain.getIsAnonymous());
-		orderEntity.setName(orderDomain.getName());
 		return orderEntity;
 	}
 
 	public OrderDomain toOrderDomain(OrderEntity orderEntity) {
 		var orderDomain = new OrderDomain();
-		orderDomain.setId(orderEntity.getId());
-		//
-		orderDomain.setItems(toOrderItemDomainList(orderEntity.getItems()));
+		BeanUtils.copyProperties(orderEntity, orderDomain);
 		orderDomain.setStatus(orderEntity.getStatus());
-		orderDomain.setIsAnonymous(orderEntity.getIsAnonymous());
-		orderDomain.setName(orderEntity.getName());
-
+		
 		if (orderEntity.getClient() != null && orderEntity.getClient().getId() != null) {
 			orderDomain.setClient(clientEntityMapper.toClientDomain(orderEntity.getClient()));;
 		}
+		
+		orderDomain.setItems(toOrderItemDomainList(orderEntity.getItems()));
+		orderDomain.setPayments(toPaymentDomainList(orderEntity.getPayments()));
 
 		return orderDomain;
 	}
 
 	public List<OrderItemEntity> toOrderItemEntityList(List<OrderItemDomain> orderItemDomainList, OrderEntity orderEntity) {
-		return orderItemDomainList.stream().map(orderItemDomain -> toOrderItemEntity(orderItemDomain, orderEntity)).toList();
+		return orderItemDomainList.stream().map(orderItemDomain -> toOrderItemEntity(orderItemDomain, orderEntity)).collect(Collectors.toList());
 	}
 
 	public OrderItemEntity toOrderItemEntity(OrderItemDomain orderItemDomain, OrderEntity orderEntity) {
@@ -61,7 +60,7 @@ public class OrderEntityMapper {
 	}
 
 	public List<OrderItemDomain>  toOrderItemDomainList(List<OrderItemEntity> orderItemEntityList) {
-		return orderItemEntityList.stream().map(orderItemEntity -> toOrderItemDomain(orderItemEntity)).toList();
+		return orderItemEntityList.stream().map(orderItemEntity -> toOrderItemDomain(orderItemEntity)).collect(Collectors.toList());
 	}
 
 	public OrderItemDomain toOrderItemDomain(OrderItemEntity orderItemEntity) {
@@ -72,14 +71,27 @@ public class OrderEntityMapper {
 	}
 
 	public List<PaymentEntity> toPaymentEntityList(List<PaymentDomain> paymentDomainList, OrderEntity orderEntity) {
-		return paymentDomainList.stream().map(paymentDomain -> toPaymentEntity(paymentDomain, orderEntity)).toList();
+		return paymentDomainList.stream().map(paymentDomain -> toPaymentEntity(paymentDomain, orderEntity)).collect(Collectors.toList());
 	}
 
 	public PaymentEntity toPaymentEntity(PaymentDomain paymentDomain, OrderEntity orderEntity) {
 		var paymentEntity = new PaymentEntity();
 		BeanUtils.copyProperties(paymentDomain, paymentEntity);
 		paymentEntity.setId(new PaymentPk(orderEntity, paymentDomain.getId()));
+		paymentEntity.setStatus(paymentDomain.getStatus());
 		return paymentEntity;
+	}
+	
+	public List<PaymentDomain> toPaymentDomainList(List<PaymentEntity> paymentEntityList) {
+		return paymentEntityList.stream().map(paymentEntity -> toPaymentDomain(paymentEntity)).collect(Collectors.toList());
+	}
+
+	public PaymentDomain toPaymentDomain(PaymentEntity paymentEntity) {
+		var paymentDomain = new PaymentDomain();
+		BeanUtils.copyProperties(paymentEntity, paymentDomain);
+		paymentDomain.setId(paymentEntity.getId().getId());
+		paymentDomain.setStatus(paymentEntity.getStatus());
+		return paymentDomain;
 	}
 
 	

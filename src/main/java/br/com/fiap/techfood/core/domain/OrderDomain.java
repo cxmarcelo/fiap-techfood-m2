@@ -1,6 +1,7 @@
 package br.com.fiap.techfood.core.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -12,36 +13,15 @@ public class OrderDomain {
 	private UUID id;
 	private String name;
 	private List<OrderItemDomain> items;
-	private OrderStatusEnum status = OrderStatusEnum.AWAITING_PAYMENT;
+	private OrderStatusEnum status = OrderStatusEnum.ORDER_CREATED;
 	private Boolean isAnonymous = true;
 	private ClientDomain client;
 	private List<PaymentDomain> payments;
+	private LocalDateTime creationDate;
+	private LocalDateTime lastUpdateDate;
 
 	public OrderDomain() {
 		super();
-	}
-
-	public OrderDomain(String name, List<OrderItemDomain> items, OrderStatusEnum status, Boolean isAnonymous,
-			ClientDomain client, List<PaymentDomain >payments) {
-		super();
-		this.name = name;
-		this.items = items;
-		this.status = status;
-		this.isAnonymous = isAnonymous;
-		this.client = client;
-		this.payments = payments;
-	}
-
-	public OrderDomain(UUID id, String name, List<OrderItemDomain> items, OrderStatusEnum status, Boolean isAnonymous,
-			ClientDomain client, List<PaymentDomain >payments) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.items = items;
-		this.status = status;
-		this.isAnonymous = isAnonymous;
-		this.client = client;
-		this.payments = payments;
 	}
 
 	public UUID getId() {
@@ -101,6 +81,22 @@ public class OrderDomain {
 
 	public void setPayments(List<PaymentDomain> payments) {
 		this.payments = payments;
+	}
+
+	public LocalDateTime getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDateTime creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public LocalDateTime getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
 	}
 
 	public BigDecimal getTotal() {

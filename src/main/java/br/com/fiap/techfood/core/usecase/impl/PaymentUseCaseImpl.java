@@ -79,8 +79,8 @@ public class PaymentUseCaseImpl implements PaymentUseCase {
 
 
 	@Override
-	public void checkExternalPaymentStatus(String paymentId, PaymentProviderEnum orderPaymentProvider) {
-		var orderDomain = this.findOrderByPaymentExternalId(paymentId);
+	public void checkExternalPaymentStatus(String externalPaymentId, PaymentProviderEnum orderPaymentProvider) {
+		var orderDomain = this.findOrderByPaymentExternalId(externalPaymentId);
 
 		try {
 			PaymentDataProvider paymentDataProvider = this.mapPaymentDataProvider.get(orderPaymentProvider);
@@ -89,7 +89,7 @@ public class PaymentUseCaseImpl implements PaymentUseCase {
 				throw new PaymentCreateFailException("Payment Service not Implemented.");
 			}
 
-			PaymentDomain paymentToCheck = orderDomain.getPayments().stream().filter(payment -> payment.getId().equals(paymentId)).findFirst().get();
+			PaymentDomain paymentToCheck = orderDomain.getPayments().stream().filter(payment -> payment.getExternalId().equals(externalPaymentId)).findFirst().get();
 
 			PaymentDomain paymentResponse = paymentDataProvider.checkPaymentStatus(paymentToCheck.getExternalId());
 

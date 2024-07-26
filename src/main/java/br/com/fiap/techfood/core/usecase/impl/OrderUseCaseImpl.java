@@ -39,7 +39,7 @@ public class OrderUseCaseImpl implements OrderUseCase {
 	@Override
 	public OrderDomain save(OrderRequestDomain orderRequest, String clientCpf) {
 		var orderDomain = new OrderDomain();
-		orderDomain.setStatus(OrderStatusEnum.AWAITING_PAYMENT);
+		orderDomain.setStatus(OrderStatusEnum.ORDER_CREATED);
 
 		if(orderRequest == null) {
 			throw new DataIntegrityException("Invalid Order request: orderRequest is null.");
@@ -119,8 +119,8 @@ public class OrderUseCaseImpl implements OrderUseCase {
 	public void delete(UUID id) {
 		var orderDomain = this.findById(id);
 
-		if (!orderDomain.getStatus().getCode().equals(OrderStatusEnum.AWAITING_PAYMENT.getCode())) {
-			throw new DataIntegrityException("It is only possible to delete an order with the status of awaiting payment.");
+		if (!orderDomain.getStatus().getCode().equals(OrderStatusEnum.ORDER_CREATED.getCode())) {
+			throw new DataIntegrityException("It is only possible to delete an order with the status of order created.");
 		}
 
 		orderDataProvider.delete(orderDomain.getId());

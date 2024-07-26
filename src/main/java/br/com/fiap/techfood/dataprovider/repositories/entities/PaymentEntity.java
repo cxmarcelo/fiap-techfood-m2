@@ -19,17 +19,17 @@ public class PaymentEntity {
 
 	@EmbeddedId
 	private PaymentPk id;
-	
+
 	@Column(nullable = false, unique = true)
 	private String externalId;
-	
+
 	private LocalDateTime dateCreated;
 	private LocalDateTime dateApproved;
 	private LocalDateTime dateLastUpdated;
 	private LocalDateTime dateOfExpiration;
 	private BigDecimal amount;
 	private String qrCode;
-	private PaymentStatusEnum status;
+	private Integer status;
 
 	@Column(nullable = false)
 	private LocalDateTime internalCreationDate;
@@ -46,6 +46,14 @@ public class PaymentEntity {
 	@PreUpdate
 	private void beforeUpdate() {
 		this.internalLastUpdateDate = LocalDateTime.now();
+	}
+
+	public PaymentStatusEnum getStatus() {
+		return PaymentStatusEnum.toEnum(this.status);
+	}
+
+	public void setStatus(PaymentStatusEnum status) {
+		this.status = status.getCode();
 	}
 
 }

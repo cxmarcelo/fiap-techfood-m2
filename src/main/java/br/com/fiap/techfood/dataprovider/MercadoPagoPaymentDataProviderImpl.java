@@ -1,6 +1,5 @@
 package br.com.fiap.techfood.dataprovider;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -32,10 +31,10 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 
-	@Value("dataprovider.payment.mercado-pago.access-token")
+	@Value("${dataprovider.payment.mercado-pago.access-token}")
 	private String accessToken;
 
-	@Value("dataprovider.payment.mercado-pago.default-payer-email")
+	@Value("${dataprovider.payment.mercado-pago.default-payer-email}")
 	private String defaultPayerEmail;
 
 	@Autowired
@@ -76,12 +75,12 @@ public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 
 		PaymentCreateRequest createRequest =
 				PaymentCreateRequest.builder()
-				.transactionAmount(new BigDecimal(1))
+				.transactionAmount(orderDomain.getTotal())
 				.externalReference(orderDomain.getId().toString())
 				.description("fiap-techfood")
 				.installments(1)
 				.paymentMethodId("pix")
-				.notificationUrl(notificationUrl)
+				//.notificationUrl(notificationUrl)
 				.payer(PaymentPayerRequest.builder().email(payerEmail).build())
 				.build();
 
@@ -94,9 +93,14 @@ public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 				throw new PaymentCreateFailException("Falha para criar pagamento");
 			}
 
-		} catch (MPException | MPApiException e) {
+		}catch (MPException e) {
 			log.error("Error generate payment {}", e.getMessage());
 			log.error(e.getMessage());
+			throw new PaymentCreateFailException("Falha para criar pagamento");
+		} catch (MPApiException e) {
+			log.error("Error generate payment {}", e.getApiResponse().getContent());
+			log.error("Error map {}", e.getApiResponse().getHeaders());
+			log.error("Error status code {}", e.getApiResponse().getStatusCode());
 			throw new PaymentCreateFailException("Falha para criar pagamento");
 		}
 	}
@@ -104,7 +108,7 @@ public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 	@Override
 	public PaymentDomain checkPaymentStatus(String externalPaymentId) throws PaymentCreateFailException {
 		MercadoPagoConfig.setAccessToken(accessToken);
-		MercadoPagoConfig.setLoggingLevel(Level.FINEST);
+		MercadoPagoConfig.setLoggingLevel(Level.WARNING);
 
 		PaymentClient paymentClient = new PaymentClient();
 
