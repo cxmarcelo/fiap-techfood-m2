@@ -36,7 +36,7 @@ public class PaymentController {
 		return ResponseEntity.ok().body(responseDto);
 	}
 
-	@PostMapping("/order/{orderId}/pay")
+	@PostMapping("/order/{orderId}/mock-pay")
 	public ResponseEntity<String> approvePayment(@PathVariable UUID orderId) {
 		var message = paymentUseCase.approvePaymentMock(orderId);
 		return ResponseEntity.ok().body(message);
