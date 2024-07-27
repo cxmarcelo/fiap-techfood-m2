@@ -72,19 +72,16 @@ Para executar o sistema, siga as instruções abaixo:
 
 ### Kubernetes
 1. Certifique-se de ter o Minikube e o Kubectl ***instalados e em execução*** em seu computador.
-2. Configure o ambiente Kubernetes executando os comandos a seguir: 
-   ``` 
-   kubectl apply -f techfood-configmap.yaml  
-   kubectl apply -f postgres-service.yaml  
-   kubectl apply -f postgres-deployment.yaml  
-   kubectl apply -f techfood-service.yaml  
-   kubectl apply -f techfood-deployment.yaml 
-   ```
-3. [Windows ou Mac] Crie um túnel de conexão com a aplicação executando o comando:  
+2. Certifique-se de estar na pasta raiz do projeto.
+3. Configure o ambiente Kubernetes executando o comando a seguir:   
+   ` 
+   kubectl apply -f .  
+   `
+4. [Windows ou Mac] Crie um túnel de conexão com a aplicação executando o comando:  
    `minikube service techfood-service`
-4. Utilize o ip fornecido para acessar a aplicação. Exemplo:  
+5. Utilize o ip fornecido para acessar a aplicação. Exemplo:  
    `http://127.0.0.1:62248`
-5. Acesse a documentação da API através do Swagger para começar a interagir com o sistema.
+6. Acesse a documentação da API através do Swagger para começar a interagir com o sistema.
 
 ## Acessando Swagger
 

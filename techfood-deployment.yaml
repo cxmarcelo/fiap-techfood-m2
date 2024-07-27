@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: techfood-deployment
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: techfood
@@ -38,3 +37,7 @@ spec:
                 configMapKeyRef:
                   name: techfood-configmap
                   key: SPRING_PROFILES_ACTIVE
+          resources:
+            requests:
+              cpu: 1m
+  replicas: 1
