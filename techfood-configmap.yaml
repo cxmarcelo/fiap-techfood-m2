@@ -6,6 +6,7 @@ data:
     SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-service:5432/techfood"
     SPRING_DATASOURCE_USERNAME: "postgres"
     SPRING_DATASOURCE_PASSWORD: "postgres"
+    SPRING_PROFILES_ACTIVE: "prod"
     schema.sql: |
       CREATE TABLE IF NOT EXISTS tb_products (
                                                  category SMALLINT NOT NULL,

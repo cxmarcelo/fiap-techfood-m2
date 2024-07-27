@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: techfood
-          image: rafaelroseno/techfood:v1.5
+          image: rafaelroseno/techfood:v1.10
           ports:
             - containerPort: 8080
           env:
@@ -33,3 +33,8 @@ spec:
                 configMapKeyRef:
                   name: techfood-configmap
                   key: SPRING_DATASOURCE_PASSWORD
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: techfood-configmap
+                  key: SPRING_PROFILES_ACTIVE

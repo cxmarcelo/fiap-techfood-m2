@@ -80,7 +80,7 @@ Para executar o sistema, siga as instruções abaixo:
    kubectl apply -f techfood-service.yaml  
    kubectl apply -f techfood-deployment.yaml 
    ```
-3. Crie um túnel de conexão com a aplicação executando o comando:  
+3. [Windows ou Mac] Crie um túnel de conexão com a aplicação executando o comando:  
    `minikube service techfood-service`
 4. Utilize o ip fornecido para acessar a aplicação. Exemplo:  
    `http://127.0.0.1:62248`
@@ -90,7 +90,8 @@ Para executar o sistema, siga as instruções abaixo:
 
 Para acessar o Swagger utilize a url:
 #### Docker - [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html).
-#### Kubernetes - [http://-ip-do-tunel:porta/swagger-ui/index.html]()
+#### Kubernetes [Windows ou Mac] - [http://{ip-do-tunel}:{porta}/swagger-ui/index.html]()
+#### Kubernetes [Linux] - [http://{minikube-ip}:32080/swagger-ui/index.html]()
 
 ## Ambiente de desenvolvimento
 
