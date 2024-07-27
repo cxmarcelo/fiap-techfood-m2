@@ -1,20 +1,20 @@
 package br.com.fiap.techfood.core.domain;
 
-import java.util.UUID;
+import java.math.BigDecimal;
 
 public class OrderItemDomain {
 
 	private Integer quantity;
-	private UUID productId;
+	private ProductDomain product;
 	private String description;
 
 	public OrderItemDomain() {
 	}
 
-	public OrderItemDomain(Integer quantity, UUID productId, String description) {
+	public OrderItemDomain(Integer quantity, ProductDomain product, String description) {
 		super();
 		this.quantity = quantity;
-		this.productId = productId;
+		this.product = product;
 		this.description = description;
 	}
 
@@ -26,12 +26,12 @@ public class OrderItemDomain {
 		this.quantity = quantity;
 	}
 
-	public UUID getProductId() {
-		return productId;
+	public ProductDomain getProduct() {
+		return product;
 	}
 
-	public void setProductId(UUID productId) {
-		this.productId = productId;
+	public void setProduct(ProductDomain product) {
+		this.product = product;
 	}
 
 	public String getDescription() {
@@ -40,6 +40,14 @@ public class OrderItemDomain {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public BigDecimal getTotal() {
+		if(this.quantity == null || this.product == null) {
+			return BigDecimal.ZERO;
+		}
+		
+		return new BigDecimal(this.quantity).multiply(this.product.getPrice());
 	}
 
 }

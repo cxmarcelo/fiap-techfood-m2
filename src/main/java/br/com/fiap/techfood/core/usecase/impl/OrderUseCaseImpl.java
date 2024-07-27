@@ -1,6 +1,8 @@
 package br.com.fiap.techfood.core.usecase.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -9,7 +11,10 @@ import br.com.fiap.techfood.core.dataprovider.ClientDataProvider;
 import br.com.fiap.techfood.core.dataprovider.OrderDataProvider;
 import br.com.fiap.techfood.core.dataprovider.ProductDataProvider;
 import br.com.fiap.techfood.core.domain.OrderDomain;
+import br.com.fiap.techfood.core.domain.OrderItemDomain;
+import br.com.fiap.techfood.core.domain.OrderItemRequestDomain;
 import br.com.fiap.techfood.core.domain.OrderRequestDomain;
+import br.com.fiap.techfood.core.domain.ProductDomain;
 import br.com.fiap.techfood.core.domain.enums.OrderStatusEnum;
 import br.com.fiap.techfood.core.domain.exceptions.DataIntegrityException;
 import br.com.fiap.techfood.core.domain.exceptions.ObjectNotFoundException;
@@ -18,14 +23,14 @@ import br.com.fiap.techfood.core.usecase.OrderUseCase;
 public class OrderUseCaseImpl implements OrderUseCase {
 
 	private final OrderDataProvider orderDataProvider;
-	private final ProductDataProvider productDataProvider ;
-	private final ClientDataProvider clientDataProvider ;
-
+	private final ProductDataProvider productDataProvider;
+	private final ClientDataProvider clientDataProvider;
 
 	public OrderUseCaseImpl(
 			OrderDataProvider orderDataProvider,
 			ProductDataProvider productDataProvider,
-			ClientDataProvider clientDataProvider) {
+			ClientDataProvider clientDataProvider
+			) {
 		this.orderDataProvider = orderDataProvider;
 		this.productDataProvider = productDataProvider;
 		this.clientDataProvider = clientDataProvider;
@@ -34,7 +39,7 @@ public class OrderUseCaseImpl implements OrderUseCase {
 	@Override
 	public OrderDomain save(OrderRequestDomain orderRequest, String clientCpf) {
 		var orderDomain = new OrderDomain();
-		orderDomain.setStatus(OrderStatusEnum.AWAITING_PAYMENT);
+		orderDomain.setStatus(OrderStatusEnum.ORDER_CREATED);
 
 		if(orderRequest == null) {
 			throw new DataIntegrityException("Invalid Order request: orderRequest is null.");
@@ -68,14 +73,27 @@ public class OrderUseCaseImpl implements OrderUseCase {
 		Set<UUID> productIdList = orderRequest.getRequestProducts().stream()
 				.map(orderItemDomain -> orderItemDomain.getProductId()).collect(Collectors.toSet());
 
-		var productList = productDataProvider.findAllByIds(productIdList);
-		if (productList.size() != productIdList.size()) {
+		var productMap = productDataProvider.findAllByIds(productIdList)
+				.stream().collect(Collectors.toMap(ProductDomain::getId, product -> product));
+
+		if (productMap.size() != productIdList.size()) {
 			throw new ObjectNotFoundException("Not all requested products were found.");
 		}
 
-		orderDomain.setItems(orderRequest.getRequestProducts());
+		orderDomain.setItems(toOrderItemDomain(productMap, orderRequest.getRequestProducts()));
 		orderDomain = orderDataProvider.save(orderDomain);
+
 		return orderDomain;
+	}
+
+	private List<OrderItemDomain> toOrderItemDomain(Map<UUID, ProductDomain> productMap,
+			List<OrderItemRequestDomain> requestProducts) {
+		List<OrderItemDomain> orderItemsDomainList = new ArrayList<OrderItemDomain>();
+		for (OrderItemRequestDomain orderItemRequestDomain : requestProducts) {
+			ProductDomain product = productMap.get(orderItemRequestDomain.getProductId());
+			orderItemsDomainList.add(new OrderItemDomain(orderItemRequestDomain.getQuantity(), product, orderItemRequestDomain.getDescription()));
+		}
+		return orderItemsDomainList;
 	}
 
 	@Override
@@ -101,23 +119,11 @@ public class OrderUseCaseImpl implements OrderUseCase {
 	public void delete(UUID id) {
 		var orderDomain = this.findById(id);
 
-		if (!orderDomain.getStatus().getCode().equals(OrderStatusEnum.AWAITING_PAYMENT.getCode())) {
-			throw new DataIntegrityException("It is only possible to delete an order with the status of awaiting payment.");
+		if (!orderDomain.getStatus().getCode().equals(OrderStatusEnum.ORDER_CREATED.getCode())) {
+			throw new DataIntegrityException("It is only possible to delete an order with the status of order created.");
 		}
 
 		orderDataProvider.delete(orderDomain.getId());
-	}
-
-	@Override
-	public String approvePayment(UUID id) {
-		var orderDomain = this.findById(id);
-
-		if (!orderDomain.getStatus().getCode().equals(OrderStatusEnum.AWAITING_PAYMENT.getCode())) {
-			throw new DataIntegrityException("It is only possible to approve payment for an order with status Awaiting Payment.");
-		}
-
-		orderDataProvider.updateStatus(id, OrderStatusEnum.PAYMENT_APPROVED);
-		return "Payment Aprroved";
 	}
 
 	@Override

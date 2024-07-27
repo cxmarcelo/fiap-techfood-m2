@@ -2,12 +2,14 @@ package br.com.fiap.techfood.core.domain.enums;
 
 public enum OrderStatusEnum {
 
-	AWAITING_PAYMENT(1),
-	PAYMENT_APPROVED(2),
+	ORDER_CREATED(1),
+	AWAITING_PAYMENT(2),
 	PREPARED(3),
 	READY_FOR_PICKUP(4),
-	FINISHED(5),
-	PAYMENT_REJECTED(9)
+	PAYMENT_CREATE_FAILED(5),
+	PAYMENT_APPROVED(6),
+	PAYMENT_REJECTED(7),
+	FINISHED(8),
 	;
 
 	private Integer code;

@@ -66,11 +66,9 @@ public class ClientController {
 		return ResponseEntity.status(HttpStatus.OK).body(new PageImpl<ClientResponseDTO>(clientDTOList, pageable, clientDomainList.size()));
 	}
 
-	//TODO MOVER ESTA LOGICA PARA USECASE
 	@DeleteMapping("/{clientId}")
 	public ResponseEntity<Object> deleteClient(@PathVariable(value = "clientId") UUID clientId) {
-		var clientDomain = clientUseCase.findById(clientId);
-		clientUseCase.delete(clientDomain);
+		clientUseCase.delete(clientId);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Client deleted successfully.");
 	}
 

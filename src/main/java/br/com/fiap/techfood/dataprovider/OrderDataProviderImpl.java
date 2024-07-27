@@ -13,6 +13,7 @@ import br.com.fiap.techfood.core.domain.enums.OrderStatusEnum;
 import br.com.fiap.techfood.dataprovider.repositories.ClientRepository;
 import br.com.fiap.techfood.dataprovider.repositories.OrderItemRepository;
 import br.com.fiap.techfood.dataprovider.repositories.OrderRepository;
+import br.com.fiap.techfood.dataprovider.repositories.PaymentRepository;
 import br.com.fiap.techfood.dataprovider.repositories.mappers.OrderEntityMapper;
 import jakarta.transaction.Transactional;
 
@@ -24,6 +25,9 @@ public class OrderDataProviderImpl implements OrderDataProvider {
 
 	@Autowired
 	private OrderItemRepository orderItemRepository;
+
+	@Autowired
+	private PaymentRepository paymentRepository;
 
 	@Autowired
 	private OrderEntityMapper orderEntityMapper;
@@ -46,12 +50,22 @@ public class OrderDataProviderImpl implements OrderDataProvider {
 		orderEntity.setItems(orderItemsEntity);
 		orderItemRepository.saveAll(orderItemsEntity);
 
+		var paymentEntityList = orderEntityMapper.toPaymentEntityList(orderDomain.getPayments(), orderEntity);
+		orderEntity.setPayments(paymentEntityList);
+		paymentRepository.saveAll(paymentEntityList);
+
 		return orderEntityMapper.toOrderDomain(orderEntity);
 	}
 
 	@Override
 	public Optional<OrderDomain> findById(UUID id) {
 		var optional = orderRepository.findById(id);
+		return optional.map(orderEntity -> orderEntityMapper.toOrderDomain(orderEntity));
+	}
+	
+	@Override
+	public Optional<OrderDomain> findOrderByPaymentExternalId(String paymentExternalId) {
+		var optional = orderRepository.findOrderByPaymentExternalId(paymentExternalId);
 		return optional.map(orderEntity -> orderEntityMapper.toOrderDomain(orderEntity));
 	}
 

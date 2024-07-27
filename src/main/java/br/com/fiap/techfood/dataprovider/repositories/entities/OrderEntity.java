@@ -39,6 +39,9 @@ public class OrderEntity {
 
 	@OneToMany(mappedBy = "id.order")
 	private List<OrderItemEntity> items = new ArrayList<OrderItemEntity>();
+	
+	@OneToMany(mappedBy = "id.order")
+	private List<PaymentEntity> payments;
 
 	@ManyToOne
 	@JoinColumn(name = "client_id", foreignKey = @ForeignKey(name="fk_order_client"))

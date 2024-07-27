@@ -1,5 +1,8 @@
 package br.com.fiap.techfood.core.domain;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -7,36 +10,18 @@ import br.com.fiap.techfood.core.domain.enums.OrderStatusEnum;
 
 public class OrderDomain {
 
-	private  UUID id;
-	private  String name;
-	private  List<OrderItemDomain> items;
-	private  OrderStatusEnum status = OrderStatusEnum.AWAITING_PAYMENT;
-	private  Boolean isAnonymous = true;
-	private  ClientDomain client;
+	private UUID id;
+	private String name;
+	private List<OrderItemDomain> items;
+	private OrderStatusEnum status = OrderStatusEnum.ORDER_CREATED;
+	private Boolean isAnonymous = true;
+	private ClientDomain client;
+	private List<PaymentDomain> payments;
+	private LocalDateTime creationDate;
+	private LocalDateTime lastUpdateDate;
 
 	public OrderDomain() {
 		super();
-	}
-
-	public OrderDomain(String name, List<OrderItemDomain> items, OrderStatusEnum status, Boolean isAnonymous,
-			ClientDomain client) {
-		super();
-		this.name = name;
-		this.items = items;
-		this.status = status;
-		this.isAnonymous = isAnonymous;
-		this.client = client;
-	}
-
-	public OrderDomain(UUID id, String name, List<OrderItemDomain> items, OrderStatusEnum status, Boolean isAnonymous,
-			ClientDomain client) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.items = items;
-		this.status = status;
-		this.isAnonymous = isAnonymous;
-		this.client = client;
 	}
 
 	public UUID getId() {
@@ -85,6 +70,46 @@ public class OrderDomain {
 
 	public void setClient(ClientDomain client) {
 		this.client = client;
+	}
+
+	public List<PaymentDomain> getPayments() {
+		if(payments == null) {
+			payments = new ArrayList<PaymentDomain>();
+		}
+		return payments;
+	}
+
+	public void setPayments(List<PaymentDomain> payments) {
+		this.payments = payments;
+	}
+
+	public LocalDateTime getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDateTime creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public LocalDateTime getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public BigDecimal getTotal() {
+		if(this.items == null || this.items.size() == 0) {
+			return BigDecimal.ZERO;
+		}
+
+		BigDecimal total = BigDecimal.ZERO;
+		for (OrderItemDomain orderItemDomain : items) {
+			total = total.add(orderItemDomain.getTotal());
+		}
+
+		return total;
 	}
 
 }
