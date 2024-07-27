@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.payment.PaymentClient;
@@ -31,11 +30,14 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 
-	@Value("${dataprovider.payment.mercado-pago.access-token}")
+	@Value("${dataprovider.payment.mercado-pago.access-token:}")
 	private String accessToken;
 
-	@Value("${dataprovider.payment.mercado-pago.default-payer-email}")
+	@Value("${dataprovider.payment.mercado-pago.default-payer-email:}")
 	private String defaultPayerEmail;
+
+	@Value("${api.url:}")
+	private String apiUrl;
 
 	@Autowired
 	private PaymentMercadoPagoMapper paymentMercadoPagoMapper;
@@ -71,7 +73,16 @@ public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 			payerEmail = this.defaultPayerEmail;
 		}
 
-		String notificationUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/mercado-pago/webhook";
+
+		String notificationUrl = null;
+
+
+		if(this.apiUrl != null && !this.apiUrl.isBlank()) {
+			notificationUrl = apiUrl + "/mercado-pago/webhook";
+		}
+
+		log.info("notificationUrl: {}", notificationUrl);
+
 
 		PaymentCreateRequest createRequest =
 				PaymentCreateRequest.builder()
@@ -80,7 +91,7 @@ public class MercadoPagoPaymentDataProviderImpl implements PaymentDataProvider {
 				.description("fiap-techfood")
 				.installments(1)
 				.paymentMethodId("pix")
-				//.notificationUrl(notificationUrl)
+				.notificationUrl(notificationUrl)
 				.payer(PaymentPayerRequest.builder().email(payerEmail).build())
 				.build();
 
