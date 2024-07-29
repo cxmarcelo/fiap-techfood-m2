@@ -43,8 +43,6 @@ O TechFood expõe as seguintes APIs para integração:
 - **Checkout:** API para o checkout de pedidos, enviando os produtos escolhidos para a fila de preparação.
 - **Acompanhamento de Pedidos:** API para listar os pedidos em andamento e o tempo de espera de cada pedido.
 
-//TODO
-
 ## Iniciando
 
 Enviar modificações para a branch main requer:
