@@ -60,6 +60,7 @@ Para executar o sistema, siga as instruções abaixo:
 `git clone https://github.com/cxmarcelo/fiap-techfood-m2.git`
 2. Entre na pasta do projeto:  
 `cd fiap-techfood-m2`
+3. Insira seu Access-Token do Mercado Pago no campo `MERCADO_PAGO_ACCESS_TOKEN` presente no arquivo `techfood-configmap.yaml` 
 
 ### Docker
 1. Certifique-se de ter o Docker e o Docker Compose ***instalados e em execução*** em seu computador.
