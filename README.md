@@ -28,8 +28,9 @@ Esta é a segunda versão deste projeto, onde houve a migração para Clean Arch
 
 ## Documentação
 
-//TODO  
-[Event Storming](https://miro.com/app/board/uXjVPtIvRFs=/)
+ 
+[Event Storming](https://miro.com/app/board/uXjVPtIvRFs=/)  
+[Desenho da Arquitetura](https://miro.com/app/board/uXjVKvbI3_Y=/)
 
 
 ## APIs Disponíveis
