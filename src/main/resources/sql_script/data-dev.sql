@@ -1,5 +1,5 @@
-TRUNCATE TABLE tb_products RESTART IDENTITY;
-TRUNCATE TABLE tb_clients RESTART IDENTITY;
+DELETE FROM tb_products;
+DELETE FROM tb_clients;
 INSERT INTO tb_products (id, category, price, description, imageurl, name) VALUES
     ('f47ac10b-58cc-4372-a567-0e02b2c3d479', 1, 10.50, 'Delicioso x-burguer com queijo e alface', 'http://example.com/images/xburguer.jpg', 'X-Burguer'),
     ('c9bf9e57-1685-4c89-bafb-ff5af830be8a', 1, 12.00, 'Sanduíche natural de frango com salada', 'http://example.com/images/sanduiche_natural.jpg', 'Sanduíche Natural'),
