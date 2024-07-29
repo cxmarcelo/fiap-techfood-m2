@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techfood-deployment
+spec:
+  selector:
+    matchLabels:
+      app: techfood
+  template:
+    metadata:
+      labels:
+        app: techfood
+    spec:
+      containers:
+        - name: techfood
+          image: rafaelroseno/techfood:v1.10
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: techfood-configmap
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: techfood-configmap
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: techfood-configmap
+                  key: SPRING_DATASOURCE_PASSWORD
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: techfood-configmap
+                  key: SPRING_PROFILES_ACTIVE
+          resources:
+            requests:
+              cpu: 1m
+  replicas: 1
