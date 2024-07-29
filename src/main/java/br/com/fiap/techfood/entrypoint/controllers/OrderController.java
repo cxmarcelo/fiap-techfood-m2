@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.techfood.core.domain.OrderDomain;
 import br.com.fiap.techfood.core.domain.enums.OrderStatusEnum;
 import br.com.fiap.techfood.core.usecase.OrderUseCase;
 import br.com.fiap.techfood.entrypoint.dtos.OrderCreateDTO;
@@ -31,18 +30,12 @@ public class OrderController {
 	@Autowired
 	private OrderMapper orderMapper;
 	
-	
     @PostMapping
-    public ResponseEntity<OrderDomain>  makeOrder(@RequestBody @Validated OrderCreateDTO orderCreateDto) {
+    public ResponseEntity<OrderDto>  makeOrder(@RequestBody @Validated OrderCreateDTO orderCreateDto) {
         var cartDomain = orderMapper.toOrderRequestDomain(orderCreateDto);
-        var response = orderUseCase.save(cartDomain, orderCreateDto.getClientCpf());
-        return ResponseEntity.ok().body(response);
-    }
-
-    @PostMapping("/{orderId}/pay")
-    public ResponseEntity<String> approvePayment(@PathVariable UUID orderId) {
-        var message = orderUseCase.approvePayment(orderId);
-        return ResponseEntity.ok().body(message);
+        var orderDomain = orderUseCase.save(cartDomain, orderCreateDto.getClientCpf());
+        var responseDto = orderMapper.toOrderDto(orderDomain);
+        return ResponseEntity.ok().body(responseDto);
     }
 
     @PostMapping("/{orderId}/prepare")
@@ -56,7 +49,7 @@ public class OrderController {
         orderUseCase.finishOrder(orderId);
         return ResponseEntity.noContent().build();
     }
-
+    
     @GetMapping("/awaiting-payment")
     public ResponseEntity<List<OrderDto>> findAllAwaitingPayment() {
         var orderDomainList = orderUseCase.findAllByStatus(OrderStatusEnum.AWAITING_PAYMENT);

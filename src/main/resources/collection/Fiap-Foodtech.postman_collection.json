@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a388cfb9-7ba1-4975-8908-8a28a58a2469",
+		"_postman_id": "bf3d9f93-f6fb-40a4-9ab6-3fdf38b47b9e",
 		"name": "Fiap-Foodtech",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "8774671",
-		"_collection_link": "https://fiap-pos-tech.postman.co/workspace/Fiap-Pos-Tech-Workspace~7b179154-6a34-4d90-839a-89a0af4bfd65/collection/8774671-a388cfb9-7ba1-4975-8908-8a28a58a2469?action=share&source=collection_link&creator=8774671"
+		"_exporter_id": "21534302"
 	},
 	"item": [
 		{
@@ -219,7 +218,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"orderItems\": [\n        {\n            \"productId\": \"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\n            \"quantity\": 3,\n            \"description\": \"Sem Cebola\"\n        },\n        {\n            \"productId\": \"c9bf9e57-1685-4c89-bafb-ff5af830be8a\",\n            \"quantity\": 2,\n            \"description\": \"Sem Maionese\"\n        }\n    ],\n    \"orderName\": \"João M\",\n    \"clientCpf\": \"12345678988\"\n}",
+							"raw": "{\n    \"orderItems\": [\n        {\n            \"productId\": \"e6bf8692-c8b0-40d8-8c5c-1ff54944d20d\",\n            \"quantity\": 3,\n            \"description\": \"Sem Cebola\"\n        }\n\n    ],\n    \"orderName\": \"João M\"\n   \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -233,25 +232,6 @@
 							],
 							"path": [
 								"orders"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Pay Order",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/orders/c4935ea9-9a11-4585-8344-8002ff79bf46/pay",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"orders",
-								"c4935ea9-9a11-4585-8344-8002ff79bf46",
-								"pay"
 							]
 						}
 					},
@@ -380,6 +360,85 @@
 							"path": [
 								"orders",
 								"c4935ea9-9a11-4585-8344-8002ff79bf46"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "Create Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": \"5381bc1a-36c3-4e35-8658-bba329246735\",\r\n    \"paymentProvider\": \"MERCADO_PAGO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/payments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pay Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/payments/order/c4935ea9-9a11-4585-8344-8002ff79bf46/mock-pay",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"payments",
+								"order",
+								"c4935ea9-9a11-4585-8344-8002ff79bf46",
+								"mock-pay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fake Call Webhook Mercado Pago",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"payment\",\r\n    \"action\": \"payment.updated\",\r\n    \"data\": {\r\n        \"id\": \"1319017546\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/payments/mercado-pago/webhook",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"payments",
+								"mercado-pago",
+								"webhook"
 							]
 						}
 					},

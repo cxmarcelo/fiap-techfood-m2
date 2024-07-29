@@ -16,6 +16,6 @@ public interface ClientUseCase {
 
 	List<ClientDomain> findAll(PageInfo pageInfo);
 
-	void delete(ClientDomain clientDomain);
+	void delete(UUID id);
 
 }
