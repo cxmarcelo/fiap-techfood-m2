@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: techfood
-          image: rafaelroseno/techfood:v1.10
+          image: rafaelroseno/techfood:v1.17
           ports:
             - containerPort: 8080
           env:
@@ -37,6 +37,21 @@ spec:
                 configMapKeyRef:
                   name: techfood-configmap
                   key: SPRING_PROFILES_ACTIVE
+            - name: MERCADO_PAGO_ACCESS_TOKEN
+              valueFrom:
+                configMapKeyRef:
+                  name: techfood-configmap
+                  key: MERCADO_PAGO_ACCESS_TOKEN
+            - name: MERCADO_PAGO_DEFAULT_PAYER_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: techfood-configmap
+                  key: MERCADO_PAGO_DEFAULT_PAYER_EMAIL
+            - name: TECHFOOD_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: techfood-configmap
+                  key: TECHFOOD_API_URL
           resources:
             requests:
               cpu: 1m
