@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS tb_order_items (
         ON DELETE NO ACTION
 );
 
-CREATE TABLE IF NOT EXISTS public.tb_payments (
+CREATE TABLE IF NOT EXISTS tb_payments (
     amount numeric(38,2),
     status integer,
     date_approved timestamp(6) without time zone,

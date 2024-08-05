@@ -50,3 +50,23 @@ data:
           CONSTRAINT fk_order_item_order FOREIGN KEY (order_id) REFERENCES tb_orders (id) ON UPDATE NO ACTION ON DELETE NO ACTION,
           CONSTRAINT fk_order_item_product FOREIGN KEY (product_id) REFERENCES tb_products (id) ON UPDATE NO ACTION ON DELETE NO ACTION
           );
+      CREATE TABLE IF NOT EXISTS tb_payments (
+         amount numeric(38,2),
+         status integer,
+         date_approved timestamp(6) without time zone,
+         date_created timestamp(6) without time zone,
+         date_last_updated timestamp(6) without time zone,
+         date_of_expiration timestamp(6) without time zone,
+         internal_creation_date timestamp(6) without time zone NOT NULL,
+         internal_last_update_date timestamp(6) without time zone NOT NULL,
+         id uuid NOT NULL,
+         order_id uuid NOT NULL,
+         external_id character varying(255) NOT NULL,
+         qr_code character varying(255),
+         CONSTRAINT tb_payments_pkey PRIMARY KEY (id, order_id),
+         CONSTRAINT tb_payments_external_id_key UNIQUE (external_id),
+         CONSTRAINT fk_order_item_order FOREIGN KEY (order_id)
+         REFERENCES public.tb_orders (id)
+            ON UPDATE NO ACTION
+            ON DELETE NO ACTION
+          );
